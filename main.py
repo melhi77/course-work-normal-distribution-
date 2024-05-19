@@ -1,5 +1,7 @@
 import math
+import numpy as np
 import random
+import matplotlib.pyplot as plt
 from statistics import mode
 #Сканирование выборки из файла
 def scan_file(filename):
@@ -181,6 +183,29 @@ print(f"Выборочный начальный момент 3-ого поряд
 print(f"Выборочный центральный момент 3-го порядка ={sample_central_moment}")
 
 
+#Выбираем случайные элементы из выборки
+def select_random_elements(data,k):
+    random_elements = random.sample(data, k)
+    return random_elements
 
+#Построение гистограммы
+def build_hist(sample,n):
+    sample=quick_sort(sample)
+    min_v=get_min(sample)
+    max_v=get_max(sample,n)
+    razmah=get_sample_range(max_v,min_v)
+    num_bins =int(1 + 3.332*math.log(n))
+    width=float(razmah/num_bins)
+    plt.hist(sample, bins=num_bins, density=True, edgecolor='black')
+    plt.xlabel('Частичные интервалы')
+    plt.ylabel('Относительные частоты')
+    plt.title(f"Гистограмма относительно частот для подвыборки из {n} элементов")
+    plt.show()
 
+sample_10=select_random_elements(list_elem,10)
+sample_100=select_random_elements(list_elem,100)
+sample_300=select_random_elements(list_elem,300)
 
+build_hist(sample_300,10)
+build_hist(sample_300,100)
+build_hist(sample_300,300)
